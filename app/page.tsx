@@ -46,7 +46,7 @@ export default function Home() {
       setFade(false);
 
       setTimeout(() => {
-        setIndex((prevIndex) => (prevIndex + 1) % PHRASES.length);
+        setIndex((prevIndex) => (prevIndex + 1) % phrases.length);
         setFade(true);
       }, 500);
     }, 2500);
