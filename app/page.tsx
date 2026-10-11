@@ -11,60 +11,65 @@ import Footer from "./components/Footer";
 import BudgetEstimator from "./components/BudgetEstimator";
 import Projects from "./components/Projects";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export default function Home() {
-  const mainRef = useRef<HTMLDivElement>(null);
-  const heroTextRef = useRef<HTMLHeadingElement>(null);
-  const horizontalScrollRef = useRef<HTMLDivElement>(null);
-  // Modal & Lead Data States
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"standard" | "estimator">("standard");
-  const [estimatorData, setEstimatorData] = useState<any>(null);
-
-
-  const phrases = [
+const phrases = [
     "Basement Architecture & Design",
     "High-Yield Secondary Suites",
     "Multigenerational Living Spaces",
     "Bespoke Interior Transformations",
     "Private Wellness Sanctuaries"
   ];
+
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+  // Prevent mobile address bar resize jumps & normalize scroll physics
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  ScrollTrigger.normalizeScroll(true);
+}
+
+export default function Home() {
+  const mainRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLHeadingElement>(null);
+  const horizontalScrollRef = useRef<HTMLDivElement>(null);
+
+  // Modal & Lead Data States
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"standard" | "estimator">("standard");
+  const [estimatorData, setEstimatorData] = useState<any>(null);
+
+  
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
     const timer = setInterval(() => {
       setFade(false);
 
       setTimeout(() => {
-        setIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+        setIndex((prevIndex) => (prevIndex + 1) % PHRASES.length);
         setFade(true);
       }, 500);
     }, 2500);
 
     return () => clearInterval(timer);
-  }, []);
+  }, []); // Empty dependency array
 
-  
-      // 1. Standard Design Consultation CTA Handler
-      const handleOpenStandardModal = (e?: any) => {
-        if (e && typeof e.preventDefault === 'function') {
-          e.preventDefault();
-        }
-        setModalMode("standard");
-        setEstimatorData(null);
-        setIsModalOpen(true);
-      };
+  // 1. Standard Design Consultation CTA Handler
+  const handleOpenStandardModal = (e?: any) => {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+    }
+    setModalMode("standard");
+    setEstimatorData(null);
+    setIsModalOpen(true);
+  };
 
-      // 2. Estimator Feasibility Review CTA Handler
-      const handleOpenEstimatorModal = (leadData: any) => {
-        setModalMode("estimator");
-        setEstimatorData(leadData);
-        setIsModalOpen(true);
-      };
+  // 2. Estimator Feasibility Review CTA Handler
+  const handleOpenEstimatorModal = (leadData: any) => {
+    setModalMode("estimator");
+    setEstimatorData(leadData);
+    setIsModalOpen(true);
+  };
 
   useGSAP(
     () => {
@@ -100,7 +105,7 @@ export default function Home() {
         );
       });
 
-      // 3. Horizontal Scroll for Services (LOKAH Content)
+      // 3. Horizontal Scroll for Services
       const sections = gsap.utils.toArray<HTMLElement>(".horizontal-panel");
       if (sections.length > 0 && horizontalScrollRef.current) {
         gsap.to(sections, {
@@ -110,7 +115,7 @@ export default function Home() {
             trigger: horizontalScrollRef.current,
             pin: true,
             scrub: 1,
-            end: () => `+=${window.innerWidth * (sections.length - 1)}`,
+            end: () => `+=${horizontalScrollRef.current?.offsetWidth || window.innerWidth}`,
             invalidateOnRefresh: true,
             anticipatePin: 1,
           },
@@ -163,8 +168,7 @@ export default function Home() {
       });
 
       // 6. Project Showcase Parallax Physics
-      const projectContainers =
-        gsap.utils.toArray<HTMLElement>(".project-container");
+      const projectContainers = gsap.utils.toArray<HTMLElement>(".project-container");
 
       projectContainers.forEach((container) => {
         gsap.to(container.querySelector(".parallax-bg-slow"), {
@@ -313,174 +317,171 @@ export default function Home() {
         </div>
       </section>
 
-          {/* 3. IMMERSIVE SCROLLYTELLING SHOWCASE */}
-          <section className="relative h-[150vh] w-full overflow-hidden parallax-container">
-            <div className="absolute inset-0 w-full h-full parallax-bg">
-              <img
-                src="/images/projects/%231/96%20CRP%20-1.jpg"
-                alt="LOKAH Interior Scan"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-[#1F2E45]/40 mix-blend-multiply"></div>
-            </div>
+      {/* IMMERSIVE SCROLLYTELLING SHOWCASE */}
+      <section className="relative h-[150vh] w-full overflow-hidden parallax-container">
+        <div className="absolute inset-0 w-full h-full parallax-bg">
+          <img
+            src="/images/projects/%231/96%20CRP%20-1.jpg"
+            alt="LOKAH Interior Scan"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#1F2E45]/40 mix-blend-multiply"></div>
+        </div>
 
-            <div className="relative z-10 flex flex-col items-center justify-center h-screen px-8 text-center parallax-fg">
-              <span className="text-[#F0B95A] text-sm uppercase tracking-[0.3em] font-semibold mb-6">
-                Scan-To-Design
-              </span>
-              <h3 className="text-5xl md:text-7xl font-light text-[#F6F2EA] max-w-4xl leading-tight">
-                Walk the space before a single wall goes up.
-              </h3>
-            </div>
-          </section>
+        <div className="relative z-10 flex flex-col items-center justify-center h-screen px-8 text-center parallax-fg">
+          <span className="text-[#F0B95A] text-sm uppercase tracking-[0.3em] font-semibold mb-6">
+            Scan-To-Design
+          </span>
+          <h3 className="text-5xl md:text-7xl font-light text-[#F6F2EA] max-w-4xl leading-tight">
+            Walk the space before a single wall goes up.
+          </h3>
+        </div>
+      </section>
 
-          {/* 4. MODULAR FEATURED PROJECTS PORTFOLIO */}
-          <Projects />
+      {/* MODULAR FEATURED PROJECTS PORTFOLIO */}
+      <Projects />
 
+      {/* INTERACTIVE BUDGET ESTIMATOR */}
+      <BudgetEstimator onOpenModal={handleOpenEstimatorModal} />
 
-        {/* INTERACTIVE BUDGET ESTIMATOR (LIGHT CANVAS - `#F6F2EA`) */}
-              <BudgetEstimator onOpenModal={handleOpenEstimatorModal} />
+      {/* THE FOUNDER'S ETHOS */}
+      <section id="about" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] flex justify-center border-t border-[#C9825B]/20">
+        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div className="reveal-up">
+            <span className="text-[#C9825B] text-sm sm:text-base font-mono tracking-[0.3em] font-bold uppercase mb-4 block">
+              The Genesis
+            </span>
+            <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8">
+              Ending the <br /> <span className="text-[#F0B95A] italic">"Leap of Faith."</span>
+            </h2>
+            <p className="text-lg md:text-xl font-light text-[#A8A59D] leading-relaxed mb-6">
+              We founded LOKAH Homes to bridge the gap between vision and reality. By combining creative architectural design power with an obsession for the customer experience, we engineered a studio that eliminates the guesswork.
+            </p>
+            <p className="text-base font-light text-[#A8A59D]/80 leading-relaxed">
+              Where others offer static drawings, we offer living designs - which are immersive, collaborative, and emotionally resonant. You are free from stress and surprise costs at the end of the build process.
+            </p>
+          </div>
 
-        {/* THE FOUNDER'S ETHOS (DARK NAVY - `#1F2E45`) */}
-              <section id="about" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] flex justify-center border-t border-[#C9825B]/20">
-                <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                  <div className="reveal-up">
-                    <span className="text-[#C9825B] text-sm sm:text-base font-mono tracking-[0.3em] font-bold uppercase mb-4 block">
-                      The Genesis
-                    </span>
-                    <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8">
-                      Ending the <br /> <span className="text-[#F0B95A] italic">"Leap of Faith."</span>
-                    </h2>
-                    <p className="text-lg md:text-xl font-light text-[#A8A59D] leading-relaxed mb-6">
-                      We founded LOKAH Homes to bridge the gap between vision and reality. By combining creative architectural design power with an obsession for the customer experience, we engineered a studio that eliminates the guesswork.
-                    </p>
-                    <p className="text-base font-light text-[#A8A59D]/80 leading-relaxed">
-                      Where others offer static drawings, we offer living designs - which are immersive, collaborative, and emotionally resonant. You are free from stress and surprise costs at the end of the build process.
-                    </p>
-                  </div>
+          <div className="relative h-[60vh] w-full rounded-sm overflow-hidden reveal-up shadow-2xl">
+            <Image
+              src="/images/jees-profile.jpg"
+              alt="Jees - Founder of LOKAH Homes"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </section>
 
-                  <div className="relative h-[60vh] w-full rounded-sm overflow-hidden reveal-up shadow-2xl">
-                    <Image
-                      src="/images/jees-profile.jpg"
-                      alt="Jees - Founder of LOKAH Homes"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-top"
-                    />
-                  </div>
-                </div>
-              </section>
+      {/* BRAND PILLARS */}
+      <section id="pillars" className="py-32 px-8 bg-[#F6F2EA] text-[#23262B]">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-[#C9825B] text-sm uppercase tracking-[0.3em] font-semibold text-center mb-16 reveal-up">
+            Our Guiding Pillars
+          </p>
 
-              {/* BRAND PILLARS (LIGHT CANVAS - `#F6F2EA`) */}
-              <section id="pillars" className="py-32 px-8 bg-[#F6F2EA] text-[#23262B]">
-                <div className="max-w-7xl mx-auto">
-                  <p className="text-[#C9825B] text-sm uppercase tracking-[0.3em] font-semibold text-center mb-16 reveal-up">
-                    Our Guiding Pillars
-                  </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {[
+              { title: "Certainty by Design", desc: "Premium scanning and 3D modeling means your design is accurate before you ever sign—so your price is firm." },
+              { title: "Radical Transparency", desc: "One dedicated client portal for every update, payment, and decision. Start to finish accountability." },
+              { title: "Emotionally Intelligent Design", desc: "We design for how a space feels to walk into—light, flow, and atmosphere—not just how it's framed." },
+              { title: "Worlds, Not Templates", desc: "Every home is shaped around how you actually live, drawing on bold design influences from around the globe." },
+              { title: "The Future of Home", desc: "Intelligent, beautiful, transparent living spaces that reflect who you are—and what's next." },
+            ].map((pillar, idx) => (
+              <div key={idx} className="reveal-up border-t border-[#1F2E45]/20 pt-6">
+                <span className="text-[#1F2E45] font-mono text-sm sm:text-base font-bold">0{idx + 1}</span>
+                <h4 className="text-xl sm:text-2xl font-medium text-[#1F2E45] mt-3 mb-2">{pillar.title}</h4>
+                <p className="text-base sm:text-lg text-[#23262B]/80 leading-relaxed font-light">{pillar.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                    {[
-                      { title: "Certainty by Design", desc: "Premium scanning and 3D modeling means your design is accurate before you ever sign—so your price is firm." },
-                      { title: "Radical Transparency", desc: "One dedicated client portal for every update, payment, and decision. Start to finish accountability." },
-                      { title: "Emotionally Intelligent Design", desc: "We design for how a space feels to walk into—light, flow, and atmosphere—not just how it's framed." },
-                      { title: "Worlds, Not Templates", desc: "Every home is shaped around how you actually live, drawing on bold design influences from around the globe." },
-                      { title: "The Future of Home", desc: "Intelligent, beautiful, transparent living spaces that reflect who you are—and what's next." },
-                    ].map((pillar, idx) => (
-                      <div key={idx} className="reveal-up border-t border-[#1F2E45]/20 pt-6">
-                        <span className="text-[#1F2E45] font-mono text-sm sm:text-base font-bold">0{idx + 1}</span>
-                        <h4 className="text-xl sm:text-2xl font-medium text-[#1F2E45] mt-3 mb-2">{pillar.title}</h4>
-                        <p className="text-base sm:text-lg text-[#23262B]/80 leading-relaxed font-light">{pillar.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
+      {/* THE METHODOLOGY */}
+      <section id="process" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] border-t border-[#C9825B]/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20 reveal-up">
+            <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase block mb-3">
+              The Methodology
+            </span>
+            <h2 className="text-4xl md:text-5xl font-light text-[#F6F2EA] tracking-tight">
+              Experience Your Space First.
+            </h2>
+          </div>
 
-              {/* THE METHODOLOGY (DARK NAVY - `#1F2E45`) */}
-              <section id="process" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] border-t border-[#C9825B]/20">
-                <div className="max-w-7xl mx-auto">
-                  <div className="text-center mb-20 reveal-up">
-                    <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase block mb-3">
-                      The Methodology
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-light text-[#F6F2EA] tracking-tight">
-                      Experience Your Space First.
-                    </h2>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "AI Design Companion",
+                desc: "Powered by Revit AI plug-ins to create bespoke conceptual designs, including 3D doll-house models and detailed concept boards.",
+              },
+              {
+                title: "Co-Creation Framework",
+                desc: "Participate interactively using digital moodboards, smart suggestions, and continuous feedback loops to secure the signature minimal aesthetic.",
+              },
+              {
+                title: "LOKAH PORTAL",
+                desc: "A real-time, interactive client portal for absolute timeline transparency, live project visualization, and phased cost estimation.",
+              },
+            ].map((step, idx) => (
+              <div key={idx} className="reveal-up p-10 bg-[#162234] shadow-2xl border-t-4 border-[#C9825B] rounded-sm hover:border-[#F0B95A] transition-colors duration-300">
+                <span className="text-[#F0B95A] font-mono text-xs uppercase tracking-widest block mb-6">0{idx + 1} // Phase</span>
+                <h3 className="text-2xl font-light text-[#F6F2EA] mb-4">{step.title}</h3>
+                <p className="text-base text-[#F6F2EA]/70 font-light leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {[
-                      {
-                        title: "AI Design Companion",
-                        desc: "Powered by Revit AI plug-ins to create bespoke conceptual designs, including 3D doll-house models and detailed concept boards.",
-                      },
-                      {
-                        title: "Co-Creation Framework",
-                        desc: "Participate interactively using digital moodboards, smart suggestions, and continuous feedback loops to secure the signature minimal aesthetic.",
-                      },
-                      {
-                        title: "LOKAH PORTAL",
-                        desc: "A real-time, interactive client portal for absolute timeline transparency, live project visualization, and phased cost estimation.",
-                      },
-                    ].map((step, idx) => (
-                      <div key={idx} className="reveal-up p-10 bg-[#162234] shadow-2xl border-t-4 border-[#C9825B] rounded-sm hover:border-[#F0B95A] transition-colors duration-300">
-                        <span className="text-[#F0B95A] font-mono text-xs uppercase tracking-widest block mb-6">0{idx + 1} // Phase</span>
-                        <h3 className="text-2xl font-light text-[#F6F2EA] mb-4">{step.title}</h3>
-                        <p className="text-base text-[#F6F2EA]/70 font-light leading-relaxed">{step.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
+      {/* FAQ SECTION */}
+      <section id="faq" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] border-t border-[#C9825B]/20">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16 reveal-up">
+            <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase block mb-3">
+              Clarity & Precision
+            </span>
+            <h2 className="text-4xl md:text-5xl font-light text-[#F6F2EA]">Frequently Asked Questions</h2>
+          </div>
 
-              
+          <div className="space-y-6 reveal-up">
+            {[
+              {
+                q: "How does 'Radical Transparency' work with pricing?",
+                a: "Unlike traditional allowances that fluctuate, our scan-to-design precision allows us to engineer a firm cost before construction begins. You see every line item, timeline, and update in your LOKAH PORTAL.",
+              },
+              {
+                q: "What makes LOKAH different from a standard general contractor?",
+                a: "We are an Designer-led custom build studio. This means the people designing your world are exactly on the same page as the people building it. There is no disconnect between the architectural vision and the final construction.",
+              },
+              {
+                q: "Do I need to have architectural drawings before contacting you?",
+                a: "No. In fact, we prefer to start from a blank slate with you. Through our AI Design Companion and Co-Creation Framework, we handle the entire architectural process from the very first concept to the final build.",
+              },
+            ].map((faq, idx) => (
+              <details key={idx} className="group border-b border-[#F6F2EA]/15 pb-6 cursor-pointer">
+                <summary className="text-xl md:text-2xl font-light list-none flex justify-between items-center text-[#F6F2EA] hover:text-[#F0B95A] transition-colors">
+                  {faq.q}
+                  <span className="text-[#C9825B] group-open:rotate-45 transition-transform duration-300 text-3xl font-light">+</span>
+                </summary>
+                <p className="mt-4 text-base md:text-lg text-[#F6F2EA]/70 font-light leading-relaxed pr-8 sm:pr-12">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              {/* FAQ SECTION (DARK NAVY - `#1F2E45`) */}
-              <section id="faq" className="py-32 px-6 sm:px-8 bg-[#1F2E45] text-[#F6F2EA] border-t border-[#C9825B]/20">
-                <div className="max-w-4xl mx-auto">
-                  <div className="text-center mb-16 reveal-up">
-                    <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase block mb-3">
-                      Clarity & Precision
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-light text-[#F6F2EA]">Frequently Asked Questions</h2>
-                  </div>
-
-                  <div className="space-y-6 reveal-up">
-                    {[
-                      {
-                        q: "How does 'Radical Transparency' work with pricing?",
-                        a: "Unlike traditional allowances that fluctuate, our scan-to-design precision allows us to engineer a firm cost before construction begins. You see every line item, timeline, and update in your LOKAH VUE Dashboard.",
-                      },
-                      {
-                        q: "What makes LOKAH different from a standard general contractor?",
-                        a: "We are an architect-led design-build studio. This means the people designing your world are the exact same people building it. There is no disconnect between the architectural vision and the final construction.",
-                      },
-                      {
-                        q: "Do I need to have architectural drawings before contacting you?",
-                        a: "No. In fact, we prefer to start from a blank slate with you. Through our AI Design Companion and Co-Creation Framework, we handle the entire architectural process from the very first concept to the final build.",
-                      },
-                    ].map((faq, idx) => (
-                      <details key={idx} className="group border-b border-[#F6F2EA]/15 pb-6 cursor-pointer">
-                        <summary className="text-xl md:text-2xl font-light list-none flex justify-between items-center text-[#F6F2EA] hover:text-[#F0B95A] transition-colors">
-                          {faq.q}
-                          <span className="text-[#C9825B] group-open:rotate-45 transition-transform duration-300 text-3xl font-light">+</span>
-                        </summary>
-                        <p className="mt-4 text-base md:text-lg text-[#F6F2EA]/70 font-light leading-relaxed pr-8 sm:pr-12">
-                          {faq.a}
-                        </p>
-                      </details>
-                    ))}
-                  </div>
-                </div>
-              </section>
-
-      {/* FOOTER (LIGHT CANVAS - `#F6F2EA`) */}
+      {/* FOOTER */}
       <Footer onOpenModal={handleOpenStandardModal} />
 
       {/* FLOATING CTA BUTTON */}
       <FloatingCTA onClick={() => setIsModalOpen(true)} />
 
-     {/* GLASSMORPHISM INQUIRY MODAL (DUAL MODE) */}
+      {/* GLASSMORPHISM INQUIRY MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300">
           <div className="relative w-full max-w-lg bg-[#F6F2EA] text-[#1F2E45] rounded-2xl shadow-2xl overflow-hidden border border-[#1F2E45]/15 animate-in fade-in zoom-in-95 duration-300">
@@ -496,9 +497,7 @@ export default function Home() {
 
             <div className="p-8 sm:p-10">
               
-              {/* ============================================================ */}
-              {/* MODE 1: SEPARATE GENERAL DESIGN CONSULTATION FORM            */}
-              {/* ============================================================ */}
+              {/* MODE 1: STANDARD CONSULTATION */}
               {modalMode === "standard" && (
                 <>
                   <span className="text-[#C9825B] text-xs font-mono tracking-[0.2em] font-bold uppercase mb-2 block">
@@ -630,9 +629,7 @@ export default function Home() {
                 </>
               )}
 
-              {/* ============================================================ */}
-              {/* MODE 2: SEPARATE ESTIMATOR FEASIBILITY REVIEW FORM           */}
-              {/* ============================================================ */}
+              {/* MODE 2: ESTIMATOR FEASIBILITY REVIEW */}
               {modalMode === "estimator" && (
                 <>
                   <span className="text-[#C9825B] text-xs font-mono tracking-[0.2em] font-bold uppercase mb-2 block">
@@ -707,7 +704,7 @@ export default function Home() {
                         readOnly
                         value={
                           estimatorData
-                            ? `[ESTIMATOR SUMMARY]\n• Scope: ${estimatorData.projectType}\n• Area: ${estimatorData.area}\n• Finish Tier: ${estimatorData.finishTier}\n• Site Conditions: ${estimatorData.siteConditions}\n• Indicative Range: ${estimatorData.estimatedRange}\n• Promos: ${estimatorData.promotionsApplied}`
+                            ? `[ESTIMATOR SUMMARY]\nScope: ${estimatorData.projectType}\nArea: ${estimatorData.area}\nFinish Tier: ${estimatorData.finishTier}\nSite Conditions: ${estimatorData.siteConditions}\nIndicative Range: ${estimatorData.estimatedRange}\nPromos: ${estimatorData.promotionsApplied}`
                             : ""
                         }
                         className="w-full bg-[#1F2E45]/5 border border-[#1F2E45]/15 p-3 rounded-xl text-xs text-[#1F2E45] font-mono leading-relaxed resize-none focus:outline-none cursor-default"
@@ -729,7 +726,6 @@ export default function Home() {
         </div>
       )}
 
-{/* End of <main> Container */}
     </main>
   );
 }
