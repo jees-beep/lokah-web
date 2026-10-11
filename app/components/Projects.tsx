@@ -71,7 +71,7 @@ export default function Projects() {
       PROJECTS.forEach((project) => {
         handleNext(project.id, project.images.length);
       });
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, [isHovered]);
@@ -99,6 +99,8 @@ export default function Projects() {
               className="bg-[#1F2E45]/40 border border-[#F6F2EA]/10 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-md p-6 lg:p-8 flex flex-col gap-8"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={() => setIsHovered(true)}
+              onTouchEnd={() => setIsHovered(false)}
             >
               {/* TOP ROW: Title, Description, and Airbnb Badge Header */}
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[#F6F2EA]/10 pb-6">
@@ -157,9 +159,9 @@ export default function Projects() {
                     title="Scan-To-Design Precision: 2D Blueprint ↔ 3D Spatial Reality"
                     beforeLabel="2D CAD Schematics"
                     afterLabel="3D Built Spatial Reality"
-                    rotateRender={89}
-                    zoomScale={1.24}
-                    translate3D="translate(5px, -18px)"
+                    rotateRender={0}
+                    zoomScale={1}
+                    translate3D="translate(0px, 0px)"
                   />
                 </div>
               )}
@@ -176,10 +178,10 @@ export default function Projects() {
                 </div>
 
                 {/* Main Image View */}
-                <div className="relative h-[380px] sm:h-[540px] w-full rounded-2xl overflow-hidden group bg-black/20">
+                <div className="relative h-[280px] sm:h-[540px] w-full rounded-2xl overflow-hidden group bg-black/20">
                   <Image
                     src={project.images[currentIndex]}
-                    alt={`${project.title} - Image ${currentIndex + 1}`}
+                    alt={`${project.title} Image ${currentIndex + 1}`}
                     fill
                     className="object-cover transition-all duration-700 ease-out"
                     sizes="(max-width: 1200px) 100vw, 1200px"

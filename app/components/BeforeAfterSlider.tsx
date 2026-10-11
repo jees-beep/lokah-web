@@ -9,9 +9,9 @@ interface BeforeAfterSliderProps {
   title?: string;
   beforeLabel?: string;
   afterLabel?: string;
-  rotateRender?: number; // Flips 180° to match orientations
-  zoomScale?: number;    // NEW: Controls magnification (1.0 - 2.0)
-  translate3D?: string;  // NEW: CSS Translate values to align walls/boundaries (X and Y offsets)
+  rotateRender?: number;
+  zoomScale?: number;
+  translate3D?: string;
 }
 
 export default function BeforeAfterSlider({
@@ -20,9 +20,9 @@ export default function BeforeAfterSlider({
   title = "2D CAD Blueprint ↔ 3D Spatial Reality",
   beforeLabel = "2D CAD Schematics",
   afterLabel = "3D Built Spatial Reality",
-  rotateRender = 89,    // Perfectly flipped to matching directions
-  zoomScale = 1.24,      // Magnification scale (adjust as needed, e.g. 1.2 - 1.4)
-  translate3D = "translate(5px, -18px)", // Shifts to align with the split-line
+  rotateRender = 0,
+  zoomScale = 1,
+  translate3D = "translate(0px, 0px)",
 }: BeforeAfterSliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -33,10 +33,10 @@ export default function BeforeAfterSlider({
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     let percentage = (x / rect.width) * 100;
-    
+
     if (percentage < 0) percentage = 0;
     if (percentage > 100) percentage = 100;
-    
+
     setSliderPosition(percentage);
   }, []);
 
@@ -63,10 +63,10 @@ export default function BeforeAfterSlider({
         </div>
       )}
 
-      {/* Interactive Frame */}
+      {/* Interactive Frame with Aspect Ratio */}
       <div
         ref={containerRef}
-        className="relative h-[380px] sm:h-[480px] w-full rounded-2xl overflow-hidden select-none cursor-ew-resize border border-[#F6F2EA]/15 shadow-2xl bg-[#1F2E45]/60"
+        className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden select-none cursor-ew-resize border border-[#F6F2EA]/15 shadow-2xl bg-[#1F2E45]/60"
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
         onMouseLeave={() => setIsDragging(false)}
@@ -75,12 +75,11 @@ export default function BeforeAfterSlider({
         onTouchEnd={() => setIsDragging(false)}
         onTouchMove={handleTouchMove}
       >
-        {/* RIGHT LAYER: Zoomed, Repositioned & Rotated 3D Render (Base Layer) */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center">
+        {/* RIGHT LAYER: 3D Render (Base Layer) */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
           <div
-            className="relative w-full h-[105%] transition-transform duration-300"
+            className="relative w-full h-full"
             style={{
-              // Combines 180° rotation, 1.24x scale zoom, and precision shift adjustments
               transform: `rotate(${rotateRender}deg) scale(${zoomScale}) ${translate3D}`,
             }}
           >
@@ -88,11 +87,11 @@ export default function BeforeAfterSlider({
               src={renderImage}
               alt="3D Spatial Render"
               fill
-              className="object-contain"
+              className="object-cover"
               priority
             />
           </div>
-          <span className="absolute bottom-4 right-4 bg-[#1F2E45]/80 backdrop-blur-md border border-[#F6F2EA]/15 text-[#F0B95A] text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full z-10">
+          <span className="absolute bottom-3 right-3 bg-[#1F2E45]/80 backdrop-blur-md border border-[#F6F2EA]/15 text-[#F0B95A] text-[9px] sm:text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full z-10">
             {afterLabel}
           </span>
         </div>
@@ -108,10 +107,10 @@ export default function BeforeAfterSlider({
             src={blueprintImage}
             alt="2D Blueprint Schematics"
             fill
-            className="object-contain p-2"
+            className="object-cover"
             priority
           />
-          <span className="absolute bottom-4 left-4 bg-[#1F2E45]/80 backdrop-blur-md border border-[#F0B95A]/30 text-[#F6F2EA] text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full z-10">
+          <span className="absolute bottom-3 left-3 bg-[#1F2E45]/80 backdrop-blur-md border border-[#F0B95A]/30 text-[#F6F2EA] text-[9px] sm:text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full z-10">
             {beforeLabel}
           </span>
         </div>
@@ -121,7 +120,7 @@ export default function BeforeAfterSlider({
           className="absolute top-0 bottom-0 w-0.5 bg-[#F0B95A] z-20 shadow-[0_0_12px_rgba(240,185,90,0.8)]"
           style={{ left: `${sliderPosition}%` }}
         >
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#1F2E45] border-2 border-[#F0B95A] shadow-lg flex items-center justify-center text-[#F0B95A] text-xs font-bold">
+          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#1F2E45] border-2 border-[#F0B95A] shadow-lg flex items-center justify-center text-[#F0B95A] text-xs font-bold">
             ↔
           </div>
         </div>
