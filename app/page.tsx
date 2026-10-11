@@ -202,7 +202,7 @@ export default function Home() {
       <Navigation />
 
       {/* HERO SECTION */}
-      <section className="relative min-h-screen bg-[#1F2E45] pt-36 pb-20 px-6 sm:px-8 flex flex-col justify-center items-center text-center text-[#F6F2EA]">
+        <section className="relative min-h-screen bg-[#1F2E45] pt-24 sm:pt-36 pb-20 px-6 sm:px-8 flex flex-col justify-center items-center text-center text-[#F6F2EA]">
         <div className="max-w-5xl mx-auto flex flex-col items-center">
           <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase mb-6 block reveal-up">
             Designer-Led Custom Builds
