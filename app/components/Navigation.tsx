@@ -193,6 +193,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
+
             Portfolio
           </a>
           <a
@@ -200,6 +201,15 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
+
+            Estimator
+          </a>
+          <a
+            href="#faq"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
+          >
+            
             Ethos &bull; Founder
           </a>
           <a
@@ -221,13 +231,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-            Estimator
-          </a>
-          <a
-            href="#faq"
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
-          >
+            
             FAQ
           </a>
           <button
