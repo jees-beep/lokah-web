@@ -159,8 +159,8 @@ export default function Projects() {
                     title="Scan-To-Design Precision: 2D Blueprint ↔ 3D Spatial Reality"
                     beforeLabel="2D CAD Schematics"
                     afterLabel="3D Built Spatial Reality"
-                    rotateRender={89}
-                    zoomScale={1}
+                    rotateRender={90}
+                    zoomScale={1.24}
                     translate3D="translate(0px, 0px)"
                   />
                 </div>

@@ -77,6 +77,14 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             Portfolio
           </a>
 
+          {/* BUDGET ESTIMATOR LINK */}
+          <a 
+            href="#estimator" 
+            className="text-xs sm:text-sm text-[#F6F2EA] hover:text-[#F0B95A] tracking-widest uppercase font-medium transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
+          >
+            Estimator
+          </a>
+
           {/* ETHOS DROPDOWN */}
           <div 
             className="relative group py-2"
@@ -137,13 +145,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             </div>
           </div>
 
-          {/* BUDGET ESTIMATOR LINK */}
-          <a 
-            href="#estimator" 
-            className="text-xs sm:text-sm text-[#F6F2EA] hover:text-[#F0B95A] tracking-widest uppercase font-medium transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
-          >
-            Estimator
-          </a>
+          
 
           <a 
             href="#faq" 
@@ -209,7 +211,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-            
+
             Ethos &bull; Founder
           </a>
           <a
