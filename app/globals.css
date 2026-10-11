@@ -1,26 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --color-lokah-navy: #1F2E45;
+  --color-lokah-clay: #C9825B;
+  --color-lokah-gold: #F0B95A;
+  --color-lokah-linen: #F6F2EA;
+  --color-lokah-stone: #A8A59D;
+  --color-lokah-charcoal: #23262B;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #F6F2EA;
+  --foreground: #23262B;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
