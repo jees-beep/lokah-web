@@ -643,12 +643,14 @@ export default function Home() {
                   </p>
 
                   <form action="https://formspree.io/f/xljdzazr" method="POST" className="space-y-4">
-                    <input
+                   <input
                       type="hidden"
                       name="_subject"
-                      value={`Estimator Lead (${estimatorData?.estimatedRange || 'Custom'}) - LOKAH Homes`}
+                      value="New Feasibility Review Request - LOKAH Homes"
                     />
 
+                    <input type="text" name="_gotcha" style={{ display: "none" }} />
+                    
                     <div>
                       <label htmlFor="est_name" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
                         Full Name *
