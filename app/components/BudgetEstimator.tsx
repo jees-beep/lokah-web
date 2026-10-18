@@ -71,7 +71,7 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
       ]
         .filter(Boolean)
         .join(", ") || "Standard Initial Condition",
-      estimatedRange: `$${minEstimate.toLocaleString()} - $${maxEstimate.toLocaleString()} CAD`,
+      estimatedRange: `$${minEstimate.toLocaleString()} – $${maxEstimate.toLocaleString()} CAD`,
       promotionsApplied: "$1,000 Design Credit Eligible + Complimentary 3D Spatial Scan & Thermostat",
     };
     onOpenModal(leadSummary);
@@ -97,7 +97,7 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
           </p>
         </div>
 
-        {/* Calculator Interface Card (grid items-stretch balances heights) */}
+        {/* Calculator Interface Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 bg-white border border-[#A8A59D]/30 p-6 sm:p-10 rounded-2xl shadow-xl items-stretch">
           
           {/* Controls Column (Left Side) */}
@@ -304,10 +304,8 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                 </span>
               </div>
 
-              {/* Special Incentives Stack (Slightly tightened padding for perfect alignment) */}
+              {/* Special Incentives Stack */}
               <div className="space-y-2.5 pt-1">
-                
-                {/* 1. $1,000 Design Credit Offer */}
                 <div className="p-3.5 bg-[#162234] border border-[#C9825B]/40 rounded-xl text-left">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[#C9825B] text-xs">✨</span>
@@ -320,7 +318,6 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                   </p>
                 </div>
 
-                {/* 2. Sustainability Gift */}
                 <div className="p-3.5 bg-[#162234] border border-[#F0B95A]/30 rounded-xl text-left">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[#F0B95A] text-xs">🌱</span>
@@ -333,7 +330,6 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                   </p>
                 </div>
 
-                {/* 3. Complimentary Site Scan Callout */}
                 <div className="p-3.5 bg-[#162234] border border-[#F6F2EA]/20 rounded-xl text-left">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[#F6F2EA] text-xs">☕</span>
@@ -345,7 +341,6 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                     We bring the architectural eye, the 3D laser scanner and the coffee. Your initial design consultation and on-site spatial assessment are 100% complimentary.
                   </p>
                 </div>
-
               </div>
 
               <div className="space-y-1.5 border-t border-[#F6F2EA]/10 pt-3 text-xs text-[#F6F2EA]/80 font-light">

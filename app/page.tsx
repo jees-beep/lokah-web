@@ -10,21 +10,20 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import BudgetEstimator from "./components/BudgetEstimator";
 import Projects from "./components/Projects";
+import ConsultationModal from "./components/ConsultationModal";
+import FeasibilityModal from "./components/FeasibilityModal";
 
 const phrases = [
-    "Basement Architecture & Design",
-    "High-Yield Secondary Suites",
-    "Multigenerational Living Spaces",
-    "Bespoke Interior Transformations",
-    "Private Wellness Sanctuaries"
-  ];
+  "Basement Architecture & Design",
+  "High-Yield Secondary Suites",
+  "Multigenerational Living Spaces",
+  "Bespoke Interior Transformations",
+  "Private Wellness Sanctuaries",
+];
 
-
+// Register plugins at module evaluation time
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-  // Prevent mobile address bar resize jumps & normalize scroll physics
-  ScrollTrigger.config({ ignoreMobileResize: true });
-  ScrollTrigger.normalizeScroll(true);
 }
 
 export default function Home() {
@@ -32,16 +31,20 @@ export default function Home() {
   const heroTextRef = useRef<HTMLHeadingElement>(null);
   const horizontalScrollRef = useRef<HTMLDivElement>(null);
 
-  // Modal & Lead Data States
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"standard" | "estimator">("standard");
+  useEffect(() => {
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    ScrollTrigger.normalizeScroll(true);
+  }, []);
+
+  // Separate Modal States
+  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const [isFeasibilityOpen, setIsFeasibilityOpen] = useState(false);
   const [estimatorData, setEstimatorData] = useState<any>(null);
 
-  
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
- useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setFade(false);
 
@@ -52,23 +55,22 @@ export default function Home() {
     }, 2500);
 
     return () => clearInterval(timer);
-  }, []); // Empty dependency array
+  }, []);
 
-  // 1. Standard Design Consultation CTA Handler
+  // 1. Open Standard Design Consultation Modal
   const handleOpenStandardModal = (e?: any) => {
-    if (e && typeof e.preventDefault === 'function') {
+    if (e && typeof e.preventDefault === "function") {
       e.preventDefault();
     }
-    setModalMode("standard");
-    setEstimatorData(null);
-    setIsModalOpen(true);
+    setIsConsultationOpen(true);
   };
 
-  // 2. Estimator Feasibility Review CTA Handler
-  const handleOpenEstimatorModal = (leadData: any) => {
-    setModalMode("estimator");
-    setEstimatorData(leadData);
-    setIsModalOpen(true);
+  // 2. Open Dedicated Feasibility Review Modal (from Budget Estimator)
+  const handleOpenEstimatorModal = (leadData?: any) => {
+    if (leadData) {
+      setEstimatorData(leadData);
+    }
+    setIsFeasibilityOpen(true);
   };
 
   useGSAP(
@@ -199,10 +201,10 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="min-h-screen bg-[#1F2E45] text-[#F6F2EA] relative">
-      <Navigation />
+      <Navigation onOpenModal={handleOpenStandardModal} />
 
       {/* HERO SECTION */}
-        <section className="relative min-h-screen bg-[#1F2E45] pt-24 sm:pt-36 pb-20 px-6 sm:px-8 flex flex-col justify-center items-center text-center text-[#F6F2EA]">
+      <section className="relative min-h-screen bg-[#1F2E45] pt-24 sm:pt-36 pb-20 px-6 sm:px-8 flex flex-col justify-center items-center text-center text-[#F6F2EA]">
         <div className="max-w-5xl mx-auto flex flex-col items-center">
           <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase mb-6 block reveal-up">
             Designer-Led Custom Builds
@@ -479,255 +481,20 @@ export default function Home() {
       <Footer onOpenModal={handleOpenStandardModal} />
 
       {/* FLOATING CTA BUTTON */}
-      <FloatingCTA onClick={() => setIsModalOpen(true)} />
+      <FloatingCTA onClick={handleOpenStandardModal} />
 
-      {/* GLASSMORPHISM INQUIRY MODAL */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300">
-          <div className="relative w-full max-w-lg bg-[#F6F2EA] text-[#1F2E45] rounded-2xl shadow-2xl overflow-hidden border border-[#1F2E45]/15 animate-in fade-in zoom-in-95 duration-300">
-            
-            {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-5 right-5 text-[#1F2E45]/50 hover:text-[#1F2E45] text-2xl transition-colors cursor-pointer z-10"
-              aria-label="Close modal"
-            >
-              &times;
-            </button>
+      {/* MODAL 1: DEDICATED DESIGN CONSULTATION WINDOW */}
+      <ConsultationModal
+        isOpen={isConsultationOpen}
+        onClose={() => setIsConsultationOpen(false)}
+      />
 
-            <div className="p-8 sm:p-10">
-              
-              {/* MODE 1: STANDARD CONSULTATION */}
-              {modalMode === "standard" && (
-                <>
-                  <span className="text-[#C9825B] text-xs font-mono tracking-[0.2em] font-bold uppercase mb-2 block">
-                    Private Consultation
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-light text-[#1F2E45] mb-2">
-                    Book a Design Consultation
-                  </h3>
-                  <p className="text-xs text-[#23262B]/70 font-light leading-relaxed mb-6">
-                    Your initial consultation and on-site 3D spatial scan are <strong>100% complimentary</strong>. Tell us a bit about your vision to get started.
-                  </p>
-
-                  <form action="https://formspree.io/f/xljdzazr" method="POST" className="space-y-4">
-                    <input type="hidden" name="_subject" value="New Design Consultation Request - LOKAH Homes" />
-
-                    <div>
-                      <label htmlFor="std_name" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="std_name"
-                        required
-                        placeholder="e.g. Marcus Vance"
-                        className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="std_email" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          id="std_email"
-                          required
-                          placeholder="marcus@example.com"
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="std_phone" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          id="std_phone"
-                          placeholder="(403) 000-0000"
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="std_scope" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Scope of Interest *
-                        </label>
-                        <select
-                          name="project_scope"
-                          id="std_scope"
-                          required
-                          defaultValue=""
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45] cursor-pointer"
-                        >
-                          <option value="" disabled>Select Scope...</option>
-                          <option value="Bespoke Private Basement for Personal Use">Bespoke Private Basement for Personal Use</option>
-                          <option value="Legal Secondary Suite for Revenue Generation">Legal Secondary Suite for Revenue Generation</option>
-                          <option value="Residential Interior Spatial Remodeling">Residential Interior Spatial Remodeling</option>
-                          <option value="Custom Architectural Inquiry">Custom Architectural Inquiry</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label htmlFor="std_timeline" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Desired Timeline
-                        </label>
-                        <select
-                          name="timeline"
-                          id="std_timeline"
-                          defaultValue="Immediate (1-3 Months)"
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45] cursor-pointer"
-                        >
-                          <option value="Immediate (1-3 Months)">Immediate (1-3 Months)</option>
-                          <option value="Upcoming (3-6 Months)">Upcoming (3-6 Months)</option>
-                          <option value="Planning Phase (6+ Months)">Planning Phase (6+ Months)</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="std_neighborhood" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                        Calgary Neighborhood / Community
-                      </label>
-                      <input
-                        type="text"
-                        name="neighborhood"
-                        id="std_neighborhood"
-                        placeholder="e.g. Mount Royal, Altadore, Rockland Park..."
-                        className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="std_vision" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1 mt-2">
-                        Tell Us About Your Vision
-                      </label>
-                      <textarea
-                        name="vision_details"
-                        id="std_vision"
-                        rows={3}
-                        placeholder="Describe your space, design aspirations, or general questions..."
-                        className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45] leading-relaxed resize-none"
-                      ></textarea>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full mt-4 bg-[#1F2E45] text-[#F6F2EA] py-3.5 rounded-full uppercase tracking-[0.2em] text-xs font-bold hover:bg-[#C9825B] transition-all duration-300 shadow-md cursor-pointer"
-                    >
-                      Request Consultation
-                    </button>
-                  </form>
-                </>
-              )}
-
-              {/* MODE 2: ESTIMATOR FEASIBILITY REVIEW */}
-              {modalMode === "estimator" && (
-                <>
-                  <span className="text-[#C9825B] text-xs font-mono tracking-[0.2em] font-bold uppercase mb-2 block">
-                    Calculated Feasibility Review
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-light text-[#1F2E45] mb-2">
-                    Confirm Your Estimate
-                  </h3>
-                  <p className="text-xs text-[#23262B]/70 font-light leading-relaxed mb-6">
-                    We've captured your calculator configuration below. Submit your details to lock in your <strong>$1,000 Design Credit</strong> and complimentary 3D spatial scan.
-                  </p>
-
-                  <form action="https://formspree.io/f/xljdzazr" method="POST" className="space-y-4">
-                   <input
-                      type="hidden"
-                      name="_subject"
-                      value="New Feasibility Review Request - LOKAH Homes"
-                    />
-
-                    <input type="text" name="_gotcha" style={{ display: "none" }} />
-                    
-                    <div>
-                      <label htmlFor="est_name" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="est_name"
-                        required
-                        placeholder="e.g. Sarah Jenkins"
-                        className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="est_email" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          id="est_email"
-                          required
-                          placeholder="sarah@example.com"
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="est_phone" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1">
-                          Phone Number *
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          id="est_phone"
-                          required
-                          placeholder="(403) 000-0000"
-                          className="w-full bg-transparent border-b border-[#1F2E45]/20 focus:border-[#C9825B] py-2 outline-none transition-colors text-xs text-[#1F2E45]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="est_summary" className="block text-[11px] font-mono uppercase tracking-wider text-[#1F2E45] mb-1 mt-2">
-                        Calculator Brief & Promos Applied
-                      </label>
-                      <textarea
-                        name="estimator_summary"
-                        id="est_summary"
-                        rows={5}
-                        readOnly
-                        value={
-                          estimatorData
-                            ? `[ESTIMATOR SUMMARY]\nScope: ${estimatorData.projectType}\nArea: ${estimatorData.area}\nFinish Tier: ${estimatorData.finishTier}\nSite Conditions: ${estimatorData.siteConditions}\nIndicative Range: ${estimatorData.estimatedRange}\nPromos: ${estimatorData.promotionsApplied}`
-                            : ""
-                        }
-                        className="w-full bg-[#1F2E45]/5 border border-[#1F2E45]/15 p-3 rounded-xl text-xs text-[#1F2E45] font-mono leading-relaxed resize-none focus:outline-none cursor-default"
-                      ></textarea>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full mt-4 bg-[#C9825B] hover:bg-[#B8693E] text-[#F6F2EA] py-3.5 rounded-full uppercase tracking-[0.2em] text-xs font-bold transition-all duration-300 shadow-md cursor-pointer"
-                    >
-                      Book your Feasibility Review
-                    </button>
-                  </form>
-                </>
-              )}
-
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* MODAL 2: DEDICATED FEASIBILITY REVIEW WINDOW */}
+      <FeasibilityModal
+        isOpen={isFeasibilityOpen}
+        onClose={() => setIsFeasibilityOpen(false)}
+        estimatorData={estimatorData}
+      />
     </main>
   );
 }
