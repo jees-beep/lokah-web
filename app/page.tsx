@@ -107,22 +107,27 @@ export default function Home() {
         );
       });
 
-      // 3. Horizontal Scroll for Services
-      const sections = gsap.utils.toArray<HTMLElement>(".horizontal-panel");
-      if (sections.length > 0 && horizontalScrollRef.current) {
-        gsap.to(sections, {
-          xPercent: -100 * (sections.length - 1),
-          ease: "none",
-          scrollTrigger: {
-            trigger: horizontalScrollRef.current,
-            pin: true,
-            scrub: 1,
-            end: () => `+=${horizontalScrollRef.current?.offsetWidth || window.innerWidth}`,
-            invalidateOnRefresh: true,
-            anticipatePin: 1,
-          },
-        });
-      }
+      // 3. Conditional Responsive Horizontal Scroll Setup
+      let mm = gsap.matchMedia();
+
+      // DESKTOP ONLY (768px+): Pin & scroll horizontally
+      mm.add("(min-width: 768px)", () => {
+        const sections = gsap.utils.toArray<HTMLElement>(".horizontal-panel");
+        if (sections.length > 0 && horizontalScrollRef.current) {
+          gsap.to(sections, {
+            xPercent: -100 * (sections.length - 1),
+            ease: "none",
+            scrollTrigger: {
+              trigger: horizontalScrollRef.current,
+              pin: true,
+              scrub: 1,
+              end: () => `+=${horizontalScrollRef.current?.offsetWidth || window.innerWidth}`,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+            },
+          });
+        }
+      });
 
       // 4. Color Transition Effect
       const darkSections = gsap.utils.toArray<HTMLElement>(".theme-dark");
@@ -200,7 +205,7 @@ export default function Home() {
   );
 
   return (
-    <main ref={mainRef} className="min-h-screen bg-[#1F2E45] text-[#F6F2EA] relative">
+    <main ref={mainRef} className="min-h-screen bg-[#1F2E45] text-[#F6F2EA] relative overflow-x-hidden">
       <Navigation onOpenModal={handleOpenStandardModal} />
 
       {/* HERO SECTION */}
@@ -252,7 +257,12 @@ export default function Home() {
       <section id="vision" className="min-h-screen w-full flex items-center justify-center py-32 px-8 bg-[#F6F2EA]">
         <div className="max-w-4xl text-center reveal-up">
           <h2 className="text-4xl md:text-6xl font-light text-[#1F2E45] leading-tight">
-            Lokah is Sanskrit for "world" — from the root lok, meaning <span className="italic text-[#C9825B]">"to see"</span> or "to perceive."
+            Lokah is Sanskrit for "world" — derived from the root word{" "}
+            <span className="inline-block text-[#C9825B] font-medium tracking-wide">
+             "लोक (<em className="not-italic italic">lok</em>)",
+              </span>
+              <br />
+              meaning <span className="italic text-[#C9825B]">"to see"</span> or "to perceive."
           </h2>
           <div className="h-px w-24 bg-[#C9825B] mx-auto my-12"></div>
           <p className="text-2xl text-[#23262B] font-light leading-relaxed">
@@ -261,61 +271,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HORIZONTAL SCROLL: SERVICES */}
+      {/* SERVICES: RESPONSIVE HORIZONTAL SCROLL (DESKTOP PIN / MOBILE TOUCH SWIPE) */}
       <section
         id="engineering"
         ref={horizontalScrollRef}
-        className="h-screen w-full flex flex-nowrap bg-[#23262B] text-[#F6F2EA] overflow-hidden relative"
+        className="w-full bg-[#23262B] text-[#F6F2EA] relative md:h-screen md:overflow-hidden py-20 md:py-0"
       >
-        <div className="horizontal-panel w-screen h-screen flex-shrink-0 flex items-center justify-center p-12 md:p-24 relative bg-[#1F2E45]">
-          <div className="relative z-10 max-w-3xl">
-            <p className="text-[#F0B95A] text-sm uppercase tracking-[0.3em] mb-4">
-              01. Subterranean Development
-            </p>
-            <h3 className="text-5xl md:text-7xl font-light mb-6">
-              Engineered for <br />
-              Revenue & Retreat.
-            </h3>
-            <p className="text-xl text-[#A8A59D] font-light">
-              We transcend the ordinary basement. Whether it is a high-yield
-              secondary suite for immediate ROI or a bespoke private wellness
-              sanctuary, we handle the entire architectural lifecycle.
-            </p>
-          </div>
+        {/* Mobile Swipe Hint */}
+        <div className="md:hidden text-center mb-6 px-6">
+          <span className="text-xs font-mono tracking-widest uppercase text-[#F0B95A]/80">
+            Swipe left to explore services &rarr;
+          </span>
         </div>
 
-        <div className="horizontal-panel w-screen h-screen flex-shrink-0 flex items-center justify-center p-12 md:p-24 relative bg-[#162234]">
-          <div className="relative z-10 max-w-3xl">
-            <p className="text-[#F0B95A] text-sm uppercase tracking-[0.3em] mb-4">
-              02. Spatial Re-Engineering
-            </p>
-            <h3 className="text-5xl md:text-7xl font-light mb-6">
-              Elevate and Evolve <br />
-              Your Living Spaces.
-            </h3>
-            <p className="text-xl text-[#A8A59D] font-light">
-              We strip away the limitations of your current layout. Our
-              design-build delivery revamps your spaces through high-concept
-              remodeling—aligning your interiors with your ambition.
-            </p>
+        {/* Container: Flex row on all screens, but scroll-snap enabled for touch on mobile */}
+        <div className="flex md:flex-nowrap overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth px-6 md:px-0 gap-6 md:gap-0 no-scrollbar pb-8 md:pb-0">
+          
+          {/* Panel 1 */}
+          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#1F2E45] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+            <div className="relative z-10 max-w-3xl">
+              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                01. Subterranean Development
+              </p>
+              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                Engineered for <br />
+                Revenue & Retreat.
+              </h3>
+              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                We transcend the ordinary basement. Whether it is a high-yield
+                secondary suite for immediate ROI or a bespoke private wellness
+                sanctuary, we handle the entire architectural and build lifecycle.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="horizontal-panel w-screen h-screen flex-shrink-0 flex items-center justify-center p-12 md:p-24 relative bg-[#23262B]">
-          <div className="relative z-10 max-w-3xl">
-            <p className="text-[#F0B95A] text-sm uppercase tracking-[0.3em] mb-4">
-              03. Integrated Systems
-            </p>
-            <h3 className="text-5xl md:text-7xl font-light mb-6">
-              Intelligent, High-Performance <br />
-              Infrastructure.
-            </h3>
-            <p className="text-xl text-[#A8A59D] font-light">
-              An ecosystem, not just a house. From EV charging and advanced HVAC
-              under-floor heating, to whole-home water filtration - we build the
-              future of your home.
-            </p>
+          {/* Panel 2 */}
+          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#162234] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+            <div className="relative z-10 max-w-3xl">
+              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                02. Spatial Re-Engineering
+              </p>
+              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                Elevate and Evolve <br />
+                Your Living Spaces.
+              </h3>
+              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                We strip away the limitations of your current layout. Our
+                design-build delivery revamps your spaces through high-concept
+                remodeling—aligning your interiors with your ambition.
+              </p>
+            </div>
           </div>
+
+          {/* Panel 3 */}
+          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#23262B] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+            <div className="relative z-10 max-w-3xl">
+              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                03. Integrated Systems
+              </p>
+              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                Intelligent, High-Performance <br />
+                Infrastructure.
+              </h3>
+              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                An ecosystem, not just a house. From EV charging and advanced HVAC to 
+                under-floor heating and whole-home water filtration - we build the
+                future of your home.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
