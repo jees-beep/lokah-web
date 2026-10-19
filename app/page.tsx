@@ -272,77 +272,77 @@ export default function Home() {
       </section>
 
       {/* SERVICES: RESPONSIVE HORIZONTAL SCROLL (DESKTOP PIN / MOBILE TOUCH SWIPE) */}
-      <section
-        id="engineering"
-        ref={horizontalScrollRef}
-        className="w-full bg-[#23262B] text-[#F6F2EA] relative md:h-screen md:overflow-hidden py-20 md:py-0"
-      >
-        {/* Mobile Swipe Hint */}
-        <div className="md:hidden text-center mb-6 px-6">
-          <span className="text-xs font-mono tracking-widest uppercase text-[#F0B95A]/80">
-            Swipe left to explore services &rarr;
-          </span>
-        </div>
-
-        {/* Container: Flex row on all screens, but scroll-snap enabled for touch on mobile */}
-        <div className="flex md:flex-nowrap overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth px-6 md:px-0 gap-6 md:gap-0 no-scrollbar pb-8 md:pb-0">
-          
-          {/* Panel 1 */}
-          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#1F2E45] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
-            <div className="relative z-10 max-w-3xl">
-              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
-                01. Subterranean Development
-              </p>
-              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
-                Engineered for <br />
-                Revenue & Retreat.
-              </h3>
-              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
-                We transcend the ordinary basement. Whether it is a high-yield
-                secondary suite for immediate ROI or a bespoke private wellness
-                sanctuary, we handle the entire architectural and build lifecycle.
-              </p>
-            </div>
+        <section
+          id="engineering"
+          ref={horizontalScrollRef}
+          className="w-full bg-[#23262B] text-[#F6F2EA] relative md:h-screen md:overflow-hidden py-16 md:py-0 overflow-x-clip"
+        >
+          {/* Mobile Swipe Hint */}
+          <div className="md:hidden text-center mb-6 px-6">
+            <span className="text-xs font-mono tracking-widest uppercase text-[#F0B95A]/80">
+              Swipe left to explore services &rarr;
+            </span>
           </div>
 
-          {/* Panel 2 */}
-          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#162234] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
-            <div className="relative z-10 max-w-3xl">
-              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
-                02. Spatial Re-Engineering
-              </p>
-              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
-                Elevate and Evolve <br />
-                Your Living Spaces.
-              </h3>
-              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
-                We strip away the limitations of your current layout. Our
-                design-build delivery revamps your spaces through high-concept
-                remodeling—aligning your interiors with your ambition.
-              </p>
+          {/* Scrollable Container */}
+          <div className="w-full overflow-x-auto overscroll-x-contain md:overflow-visible snap-x snap-mandatory flex md:flex-nowrap px-6 md:px-0 gap-6 md:gap-0 no-scrollbar pb-8 md:pb-0 touch-pan-x">
+            
+            {/* Panel 1 */}
+            <div className="horizontal-panel w-[85vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#1F2E45] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+              <div className="relative z-10 max-w-3xl">
+                <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                  01. Subterranean Development
+                </p>
+                <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                  Engineered for <br />
+                  Revenue & Retreat.
+                </h3>
+                <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                  We transcend the ordinary basement. Whether it is a high-yield
+                  secondary suite for immediate ROI or a bespoke private wellness
+                  sanctuary, we handle the entire architectural lifecycle.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Panel 3 */}
-          <div className="horizontal-panel w-[88vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#23262B] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
-            <div className="relative z-10 max-w-3xl">
-              <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
-                03. Integrated Systems
-              </p>
-              <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
-                Intelligent, High-Performance <br />
-                Infrastructure.
-              </h3>
-              <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
-                An ecosystem, not just a house. From EV charging and advanced HVAC to 
-                under-floor heating and whole-home water filtration - we build the
-                future of your home.
-              </p>
+            {/* Panel 2 */}
+            <div className="horizontal-panel w-[85vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#162234] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+              <div className="relative z-10 max-w-3xl">
+                <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                  02. Spatial Re-Engineering
+                </p>
+                <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                  Elevate and Evolve <br />
+                  Your Living Spaces.
+                </h3>
+                <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                  We strip away the limitations of your current layout. Our
+                  design-build delivery revamps your spaces through high-concept
+                  remodeling—aligning your interiors with your ambition.
+                </p>
+              </div>
             </div>
-          </div>
 
-        </div>
-      </section>
+            {/* Panel 3 */}
+            <div className="horizontal-panel w-[85vw] sm:w-[80vw] md:w-screen md:h-screen flex-shrink-0 snap-center rounded-2xl md:rounded-none flex items-center justify-center p-8 sm:p-12 md:p-24 relative bg-[#23262B] border border-[#F6F2EA]/10 md:border-none shadow-2xl md:shadow-none">
+              <div className="relative z-10 max-w-3xl">
+                <p className="text-[#F0B95A] text-xs sm:text-sm font-mono uppercase tracking-[0.3em] mb-4">
+                  03. Integrated Systems
+                </p>
+                <h3 className="text-3xl sm:text-5xl md:text-7xl font-light mb-6 leading-tight">
+                  Intelligent, High-Performance <br />
+                  Infrastructure.
+                </h3>
+                <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
+                  An ecosystem, not just a house. From EV charging and advanced HVAC
+                  under-floor heating, to whole-home water filtration - we build the
+                  future of your home.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </section>
 
       {/* IMMERSIVE SCROLLYTELLING SHOWCASE */}
       <section className="relative h-[150vh] w-full overflow-hidden parallax-container">
