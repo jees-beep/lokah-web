@@ -366,7 +366,7 @@ export default function Home() {
 
           <div className="relative h-[60vh] w-full rounded-sm overflow-hidden reveal-up shadow-2xl">
             <Image
-              src="/images/jees-profile.jpg"
+              src="/images/jees-profile2.jpg"
               alt="Jees - Founder of LOKAH Homes"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

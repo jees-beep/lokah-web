@@ -19,26 +19,42 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
 
     let animationFrameId: number;
 
+    // Handle high-DPI (Retina) scaling to eliminate jagged pixelation
+    const handleResize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      ctx.scale(dpr, dpr);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
     // Fluid & Liquid Animation Variables
     let currentFillLevel = 0; // 0 = empty, 1 = completely filled
     let waveOffset = 0;
 
     const render = () => {
-      const width = canvas.width;
-      const height = canvas.height;
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.width / dpr;
+      const height = canvas.height / dpr;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Smoothly interpolate fill level on hover (water rises on hover, drains on leave)
+      // Smoothly interpolate fill level on hover
       const targetFill = isHovered ? 1 : 0;
-      currentFillLevel += (targetFill - currentFillLevel) * 0.08;
+      currentFillLevel += (targetFill - currentFillLevel) * 0.02;
 
       if (currentFillLevel > 0.001) {
         ctx.save();
 
-        // Clip drawing area to button pill shape
+        // Clip drawing area smoothly to button pill shape
         ctx.beginPath();
-        ctx.roundRect(0, 0, width, height, height / 2);
+        // Inset clip path slightly (0.5px) to align seamlessly inside border
+        ctx.roundRect(0.5, 0.5, width - 1, height - 1, (height - 1) / 2);
         ctx.clip();
 
         // Calculate water height position
@@ -49,8 +65,7 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
         ctx.beginPath();
         ctx.moveTo(0, height);
 
-        for (let x = 0; x <= width; x += 5) {
-          // Dual Sine wave equations for natural fluid ripple dynamics
+        for (let x = 0; x <= width; x += 2) { // Smoother step size (2px instead of 5px)
           const y =
             Math.sin(x * 0.03 + waveOffset) * 4 +
             Math.cos(x * 0.015 + waveOffset * 0.8) * 3 +
@@ -62,12 +77,12 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
         ctx.closePath();
         ctx.fill();
 
-        // Draw Secondary Translucent Wave Overlay for depth
-        ctx.fillStyle = "rgba(201, 130, 91, 0.4)"; // Terracotta translucent wave
+        // Draw Secondary Translucent Wave Overlay
+        ctx.fillStyle = "rgba(201, 130, 91, 0.4)";
         ctx.beginPath();
         ctx.moveTo(0, height);
 
-        for (let x = 0; x <= width; x += 5) {
+        for (let x = 0; x <= width; x += 2) {
           const y =
             Math.sin(x * 0.025 - waveOffset * 1.2) * 5 +
             Math.sin(x * 0.04 + waveOffset) * 2 +
@@ -83,13 +98,14 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
         ctx.restore();
       }
 
-      waveOffset += 0.08; // Wave oscillation speed
+      waveOffset += 0.09;
       animationFrameId = requestAnimationFrame(render);
     };
 
     render();
 
     return () => {
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
   }, [isHovered]);
@@ -101,14 +117,12 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         aria-label="Book a Design Consultation"
-        className="group relative flex items-center gap-3 bg-[#1F2E45]/90 border border-[#F0B95A]/40 backdrop-blur-xl px-6 py-3.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#F0B95A] hover:shadow-[0_0_25px_rgba(240,185,90,0.45)] cursor-pointer overflow-hidden"
+        className="group relative flex items-center gap-3 bg-[#1F2E45]/90 border border-[#F0B95A]/40 backdrop-blur-xl px-6 py-3.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#F0B95A] hover:shadow-[0_0_25px_rgba(240,185,90,0.45)] cursor-pointer overflow-hidden isolate"
       >
         {/* INTERACTIVE SINE WAVE LIQUID CANVAS */}
         <canvas
           ref={canvasRef}
-          width={300}
-          height={56}
-          className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-0"
+          className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-0 transform-gpu"
         />
 
         {/* Pulse Indicator Dot */}
