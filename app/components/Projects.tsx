@@ -2,46 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import BeforeAfterSlider from "./BeforeAfterSlider";
-
-interface Project {
-  id: string;
-  title: string;
-  category: string;
-  location: string;
-  description: string;
-  airbnbUrl?: string;
-  rating?: number;
-  reviewCount?: string;
-  blueprintImage?: string;
-  renderImage?: string;
-  images: string[];
-}
-
-const PROJECTS: Project[] = [
-  {
-    id: "project-1",
-    title: "96 Crimson Ridge Place NW",
-    category: "Legal Secondary Suite for AirBnB",
-    location: "Calgary, AB",
-    description:
-      "A subterranean residence engineered with high-grade soundproofing, luxury spa-like washroom, integrated ambient architectural lighting, and an independent private entrance.",
-    airbnbUrl: "https://airbnb.ca/h/sanctumsanctorum",
-    rating: 5.0,
-    reviewCount: "Superhost Verified",
-    blueprintImage: "/images/projects/%231/blueprint.png",
-    renderImage: "/images/projects/%231/rendering.jpeg",
-    images: [
-      "/images/projects/%231/96%20CRP%20-1.jpg",
-      "/images/projects/%231/96%20CRP%20-2.jpg",
-      "/images/projects/%231/96%20CRP%20-3.jpg",
-      "/images/projects/%231/96%20CRP%20-4.jpg",
-      "/images/projects/%231/96%20CRP%20-5.jpg",
-      "/images/projects/%231/96%20CRP%20-6.jpg",
-      "/images/projects/%231/96%20CRP%20-7.jpg",
-    ],
-  },
-];
+import { PROJECTS_DATA as PROJECTS, Project } from "../data/projectsData";
 
 export default function Projects() {
   const [activeImageIndexes, setActiveImageIndexes] = useState<{ [key: string]: number }>({
@@ -76,8 +39,41 @@ export default function Projects() {
     return () => clearInterval(timer);
   }, [isHovered]);
 
+  // JSON-LD Schema for SERP Google Search Optimization
+  const jsonLdSchema = {
+    "@context": "https://schema.org",
+    "@type": "ArchitecturalFirm",
+    name: "LOKAH Homes",
+    url: "https://lokahhomes.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Calgary",
+      addressRegion: "AB",
+      addressCountry: "CA",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Bespoke Architectural Build Services",
+      itemListElement: PROJECTS.map((proj) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: proj.title,
+          description: proj.description,
+          areaServed: proj.location,
+        },
+      })),
+    },
+  };
+
   return (
     <section id="projects" className="py-24 px-6 sm:px-12 lg:px-16 max-w-7xl mx-auto">
+      {/* Inject Structured Schema Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+      />
+
       {/* Section Header */}
       <div className="text-center mb-16">
         <span className="text-[#C9825B] text-xs font-mono tracking-[0.25em] font-bold uppercase block mb-3">
@@ -102,53 +98,70 @@ export default function Projects() {
               onTouchStart={() => setIsHovered(true)}
               onTouchEnd={() => setIsHovered(false)}
             >
-              {/* TOP ROW: Title, Description, and Airbnb Badge Header */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[#F6F2EA]/10 pb-6">
-                <div className="max-w-2xl">
-                  <span className="text-xs text-[#C9825B] font-mono block mb-1">
-                    {project.location} &bull; {project.category}
+           
+          {/* TOP ROW: Title, Location, Airbnb Badge */}
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-4">
+            <div className="max-w-2xl">
+              <span className="text-xs text-[#C9825B] font-mono uppercase tracking-wider block mb-2">
+                {project.location} &bull; {project.category}
+              </span>
+
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-light text-[#F6F2EA] mb-4 leading-tight">
+                {project.title}
+              </h3>
+
+              <p className="text-base text-[#F6F2EA]/70 font-light leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            {/* Airbnb Badge */}
+            {project.airbnbUrl && (
+              <div className="p-4 rounded-2xl bg-[#162234]/80 border border-[#F0B95A]/30 backdrop-blur-md flex flex-col gap-2 min-w-[260px] self-start lg:self-start">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1 text-[#F0B95A]">
+                    <span className="text-sm">★</span>
+                    <span className="text-sm">★</span>
+                    <span className="text-sm">★</span>
+                    <span className="text-sm">★</span>
+                    <span className="text-sm">★</span>
+                    <span className="text-xs font-bold text-[#F6F2EA] ml-1.5 font-mono">
+                      {project.rating?.toFixed(1)}
+                    </span>
+                  </div>
+
+                  <span className="text-[10px] uppercase font-mono tracking-wider text-[#C9825B] font-semibold ml-2.5">
+                    {project.reviewCount}
                   </span>
-                  <h3 className="text-3xl sm:text-4xl font-light text-[#F6F2EA] mb-3">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-[#F6F2EA]/70 font-light leading-relaxed">
-                    {project.description}
-                  </p>
                 </div>
 
-                {/* Airbnb Badge Header */}
-                {project.airbnbUrl && (
-                  <div className="p-4 rounded-2xl bg-[#1F2E45]/80 border border-[#F0B95A]/30 backdrop-blur-md flex flex-col gap-2 min-w-[260px] self-start lg:self-center">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-[#F0B95A]">
-                        <span className="text-sm">★</span>
-                        <span className="text-sm">★</span>
-                        <span className="text-sm">★</span>
-                        <span className="text-sm">★</span>
-                        <span className="text-sm">★</span>
-                        <span className="text-xs font-bold text-[#F6F2EA] ml-1.5 font-mono">
-                          {project.rating?.toFixed(1)}
-                        </span>
-                      </div>
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-[#C9825B]">
-                        {project.reviewCount}
-                      </span>
-                    </div>
-
-                    <a
-                      href={project.airbnbUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/link flex items-center justify-between text-xs font-medium text-[#F0B95A] hover:text-[#F6F2EA] pt-2 border-t border-[#F6F2EA]/10 transition-colors"
-                    >
-                      <span>View Airbnb Listing & Ratings</span>
-                      <span className="transform group-hover/link:translate-x-1 transition-transform">
-                        ↗
-                      </span>
-                    </a>
-                  </div>
-                )}
+                <a
+                  href={project.airbnbUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/link flex items-center justify-between text-xs font-medium text-[#F0B95A] hover:text-[#F6F2EA] pt-2 border-t border-[#F6F2EA]/10 transition-colors"
+                >
+                  <span>View Airbnb Listing & Ratings</span>
+                  <span className="transform group-hover/link:translate-x-1 transition-transform">
+                    ↗
+                  </span>
+                </a>
               </div>
+            )}
+          </div>
+
+          {/* CENTERED PROMINENT CASE STUDY BUTTON */}
+          <div className="py-3 border-y border-[#F6F2EA]/10 flex justify-center items-center">
+            <Link
+              href={`/projects/${project.slug}`}
+              className="px-10 py-3.5 bg-[#C9825B] text-[#F6F2EA] hover:bg-[#F0B95A] hover:text-[#1F2E45] rounded-full text-xs sm:text-sm font-mono font-bold uppercase tracking-widest transition-all duration-300 shadow-xl flex items-center gap-3 group"
+            >
+              <span>Read Full Case Study</span>
+              <span className="transform group-hover:translate-x-1 transition-transform text-sm">
+                →
+              </span>
+            </Link>
+          </div>
 
               {/* STACKED SECTION 1: 2D/3D Blueprint Comparison Slider */}
               {project.blueprintImage && project.renderImage && (
@@ -166,7 +179,40 @@ export default function Projects() {
                 </div>
               )}
 
-              {/* STACKED SECTION 2: Interactive Photo Gallery Carousel & Thumbnails */}
+              {/* STACKED SECTION 2: Storyboard Narrative (Editorial Block) */}
+              {project.storyBlurb && (
+                <div className="p-8 sm:p-12 bg-[#162234]/60 border border-[#C9825B]/20 rounded-2xl mb-16">
+                  {/* Increased font size to text-xl sm:text-2xl and removed bolding (font-normal) */}
+                  <h2 className="text-xl sm:text-2xl font-mono font-normal tracking-widest uppercase text-[#C9825B] mb-8">
+                    Architectural Genesis — Two Dreams, One Basement
+                  </h2>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm sm:text-base font-light text-[#F6F2EA]/90 leading-relaxed">
+                    <div className="border-l border-[#C9825B]/30 pl-5">
+                      <strong className="block text-[#F0B95A] font-mono text-xs sm:text-sm uppercase mb-3 font-semibold">
+                        01 // The Brief
+                      </strong>
+                      <p>{project.storyBlurb.challenge}</p>
+                    </div>
+
+                    <div className="border-l border-[#C9825B]/30 pl-5">
+                      <strong className="block text-[#F0B95A] font-mono text-xs sm:text-sm uppercase mb-3 font-semibold">
+                        02 // Acoustic & Spatial Build
+                      </strong>
+                      <p>{project.storyBlurb.execution}</p>
+                    </div>
+
+                    <div className="border-l border-[#C9825B]/30 pl-5">
+                      <strong className="block text-[#F0B95A] font-mono text-xs sm:text-sm uppercase mb-3 font-semibold">
+                        03 // Revenue & Living Outcome
+                      </strong>
+                      <p>{project.storyBlurb.outcome}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* STACKED SECTION 3: Interactive Photo Gallery Carousel & Thumbnails */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between px-1">
                   <span className="text-xs font-mono tracking-widest uppercase text-[#F0B95A]">
