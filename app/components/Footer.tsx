@@ -66,7 +66,7 @@ export default function Footer({ onOpenModal }: FooterProps) {
                     WhatsApp Inquiry
                   </span>
                   <a
-                    href="https://wa.me/14030000000"
+                    href="https://wa.me/17807428596"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm font-mono text-[#1F2E45]/80 group-hover:text-[#C9825B] transition-colors duration-300 flex items-center gap-1.5 font-medium"
