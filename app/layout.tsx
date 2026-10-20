@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "LOKAH Homes | Calgary's Architect-Led Design-Build Studio",
   description: "See and build your world with LOKAH.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -17,11 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} bg-lokah-linen text-lokah-charcoal antialiased`}>
-        suppressHydrationWarning={true}
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+      <body
+        suppressHydrationWarning
+        className={`${inter.variable} bg-lokah-linen text-lokah-charcoal antialiased`}
+      >
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
