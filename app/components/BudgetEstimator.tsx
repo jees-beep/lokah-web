@@ -173,9 +173,14 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                 className="w-full h-2 bg-[#F6F2EA] rounded-lg appearance-none cursor-pointer accent-[#C9825B]"
               />
 
-              <div className="flex justify-between text-[10px] text-[#23262B]/50 font-mono mt-2">
+              <div className="flex justify-between items-start text-[10px] text-[#23262B]/50 font-mono mt-2">
                 <span>{unit === "sqft" ? "400 sq ft" : "35 m²"}</span>
-                <span>{unit === "sqft" ? "1,000 sq ft (Calgary Baseline)" : "93 m² (Calgary Baseline)"}</span>
+                
+                <span className="text-center leading-tight">
+                  {unit === "sqft" ? "1,000 sq ft" : "93 m²"}
+                  <span className="block text-[9px] opacity-75">(Calgary Baseline)</span>
+                </span>
+
                 <span>{unit === "sqft" ? "2,200 sq ft" : "200 m²"}</span>
               </div>
             </div>
@@ -296,7 +301,7 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
                 <span className="text-[#C9825B] text-[10px] font-mono tracking-[0.25em] uppercase font-bold block">
                   Estimated CAD Investment*
                 </span>
-                <div className="text-3xl sm:text-4xl font-light text-[#F0B95A] mt-2 mb-1 font-mono">
+                <div className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-light text-[#F0B95A] mt-2 mb-1 font-mono whitespace-nowrap overflow-hidden text-ellipsis">
                   ${minEstimate.toLocaleString()} &ndash; ${maxEstimate.toLocaleString()}
                 </div>
                 <span className="text-[10px] text-[#F6F2EA]/50 uppercase tracking-widest block font-mono">

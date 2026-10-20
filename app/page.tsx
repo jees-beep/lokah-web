@@ -12,6 +12,7 @@ import BudgetEstimator from "./components/BudgetEstimator";
 import Projects from "./components/Projects";
 import ConsultationModal from "./components/ConsultationModal";
 import FeasibilityModal from "./components/FeasibilityModal";
+import Hero from "./components/Hero";
 
 const phrases = [
   "Basement Architecture & Design",
@@ -70,17 +71,19 @@ export default function Home() {
   useGSAP(
     () => {
       // 1. Hero Text Parallax & Fade
-      gsap.to(heroTextRef.current, {
-        y: 150,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: mainRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+      if (heroTextRef.current) {
+        gsap.to(heroTextRef.current, {
+          y: 120,
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: mainRef.current,
+            start: "top top",
+            end: "40% top",
+            scrub: true,
+          },
+        });
+      }  
 
       // 2. Reveal Animations for Text Blocks
       const revealElements = gsap.utils.toArray<HTMLElement>(".reveal-up");
@@ -201,50 +204,8 @@ export default function Home() {
     <main ref={mainRef} className="min-h-screen bg-[#1F2E45] text-[#F6F2EA] relative overflow-x-hidden">
       <Navigation onOpenModal={handleOpenStandardModal} />
 
-      {/* HERO SECTION */}
-      <section className="relative min-h-screen bg-[#1F2E45] pt-24 sm:pt-36 pb-20 px-6 sm:px-8 flex flex-col justify-center items-center text-center text-[#F6F2EA]">
-        <div className="max-w-5xl mx-auto flex flex-col items-center">
-          <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase mb-6 block reveal-up">
-            Designer-Led Custom Builds
-          </span>
-
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 reveal-up">
-            See and build your world <br className="hidden sm:inline" />
-            with <span className="font-medium text-[#F0B95A] tracking-wider inline-block">LOKAH.</span>
-          </h1>
-
-          <div className="mt-2 flex flex-col items-center justify-center text-center reveal-up">
-            <div className="h-10 overflow-hidden flex items-center justify-center">
-              <span
-                className={`text-lg sm:text-2xl font-light text-[#F0B95A] tracking-wide transition-all duration-500 transform ${
-                  fade ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-                }`}
-              >
-                {phrases[index]}
-              </span>
-            </div>
-
-            <p className="mt-2 text-base sm:text-xl font-medium text-[#F6F2EA]/90">
-              Create a world that is entirely yours.
-            </p>
-          </div>
-
-          <div className="border-y border-[#F6F2EA]/15 py-6 my-6 text-center max-w-2xl mx-auto">
-            <p className="text-[#F6F2EA] font-light text-sm sm:text-base md:text-lg tracking-wide leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-              We design custom basements and interior spaces that <span className="text-[#F0B95A] font-bold">transcend the ordinary</span>.
-            </p>
-          </div>
-
-          <div className="mt-4 reveal-up">
-            <a
-              href="#projects"
-              className="px-8 py-4 border border-[#F6F2EA]/30 text-[#F6F2EA] font-semibold text-xs sm:text-sm tracking-widest uppercase rounded-full hover:bg-[#F6F2EA] hover:text-[#1F2E45] transition-all"
-            >
-              Explore Our Portfolio
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* HERO COMPONENT */}
+      <Hero heroTextRef={heroTextRef} />
 
       {/* THE MEANING */}
       <section id="vision" className="min-h-screen w-full flex items-center justify-center py-32 px-8 bg-[#F6F2EA]">
@@ -404,11 +365,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {[
-              { title: "Certainty by Design", desc: "Premium scanning and 3D modeling means your design is accurate before you ever sign—so your price is firm." },
+              { title: "Certainty by Design", desc: "Premium scanning and 3D modeling means your design is accurate before you ever sign - so your price is firm." },
               { title: "Radical Transparency", desc: "One dedicated client portal for every update, payment, and decision. Start to finish accountability." },
-              { title: "Emotionally Intelligent Design", desc: "We design for how a space feels to walk into—light, flow, and atmosphere—not just how it's framed." },
+              { title: "Emotionally Intelligent Design", desc: "We design for how a space feels to walk into - light, flow, and atmosphere - not just how it's framed." },
               { title: "Worlds, Not Templates", desc: "Every home is shaped around how you actually live, drawing on bold design influences from around the globe." },
-              { title: "The Future of Home", desc: "Intelligent, beautiful, transparent living spaces that reflect who you are—and what's next." },
+              { title: "The Future of Home", desc: "Intelligent, beautiful, transparent living spaces that reflect who you are - and what's next." },
             ].map((pillar, idx) => (
               <div key={idx} className="reveal-up border-t border-[#1F2E45]/20 pt-6">
                 <span className="text-[#1F2E45] font-mono text-sm sm:text-base font-bold">0{idx + 1}</span>
@@ -448,9 +409,9 @@ export default function Home() {
               },
             ].map((step, idx) => (
               <div key={idx} className="reveal-up p-10 bg-[#162234] shadow-2xl border-t-4 border-[#C9825B] rounded-sm hover:border-[#F0B95A] transition-colors duration-300">
-                <span className="text-[#F0B95A] font-mono text-xs uppercase tracking-widest block mb-6">0{idx + 1} // Phase</span>
+                <span className="text-[#F0B95A] font-mono text-base sm:text-lg uppercase tracking-widest font-semibold block mb-6">0{idx + 1} // Phase</span>
                 <h3 className="text-2xl font-light text-[#F6F2EA] mb-4">{step.title}</h3>
-                <p className="text-base text-[#F6F2EA]/70 font-light leading-relaxed">{step.desc}</p>
+                <p className="text-base sm:text-lg text-[#F6F2EA]/85 font-light leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
