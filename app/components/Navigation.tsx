@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface NavigationProps {
   onOpenModal?: (e?: any) => void;
@@ -20,33 +21,22 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1F2E45]/80 backdrop-blur-xl backdrop-saturate-150 border-b border-[#F6F2EA]/10 shadow-[0_4px_30px_rgba(0,0,0,0.12)] transition-all duration-300">
       <div className="w-full px-4 sm:px-8 lg:px-16 h-20 flex items-center justify-between">
         
-        {/* Brand Logo: Clean Symmetrical L + Gold Dot Mark + Gold "LOKAH" & White "HOMES" */}
+        {/* Brand Logo: Rotated Circular PNG Badge + Gold "LOKAH" & White "HOMES" */}
         <a 
           href="#" 
           className="group flex items-center gap-3 sm:gap-3.5 py-1 cursor-pointer shrink-0"
           aria-label="LOKAH Homes Homepage"
         >
-          {/* Rotated L + Dot Badge: Outer rotation for exact house roof angle */}
-          <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#F6F2EA] flex items-center justify-center border border-[#F0B95A]/50 shadow-md group-hover:border-[#F0B95A] group-hover:shadow-[0_0_18px_rgba(240,185,90,0.45)] group-hover:rotate-[135deg] transition-all duration-700 ease-in-out">
-            
-            <svg 
-              viewBox="0 0 100 100" 
-              className="w-6 h-6 sm:w-7 sm:h-7 transform transition-transform duration-700 ease-in-out"
-            >
-              {/* Symmetrical 'L' - Exactly 18px thickness on both axes */}
-              <path 
-                d="M 20 15 L 20 80 L 85 80 L 85 62 L 38 62 L 38 15 Z" 
-                fill="#1F2E45" 
-              />
-              {/* Signature Gold Dot */}
-              <circle 
-                cx="72" 
-                cy="30" 
-                r="13.5" 
-                fill="#C9825B" 
-                className="transition-all duration-500 origin-[72px_30px] group-hover:fill-[#F0B95A]"
-              />
-            </svg>
+          {/* Rotated Circular PNG Badge */}
+          <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#F0B95A]/50 shadow-md group-hover:border-[#F0B95A] group-hover:shadow-[0_0_18px_rgba(240,185,90,0.45)] transition-all duration-700 ease-in-out shrink-0 flex items-center justify-center">
+            <Image
+              src="/lokah.png"
+              alt="LOKAH Logo"
+              width={48}
+              height={48}
+              className="w-full h-full object-contain rounded-full transform group-hover:rotate-[135deg] transition-transform duration-700 ease-in-out pointer-events-none"
+              priority
+            />
           </div>
 
           {/* Clean Brand Typography */}
@@ -60,7 +50,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
           </div>
         </a>
 
-        {/* DESKTOP NAVIGATION (Hidden on mobile via 'hidden lg:flex') */}
+        {/* DESKTOP NAVIGATION */}
         <nav className="hidden lg:flex items-center gap-6 sm:gap-8">
           
           <a 
@@ -77,7 +67,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             Portfolio
           </a>
 
-          {/* BUDGET ESTIMATOR LINK */}
           <a 
             href="#estimator" 
             className="text-xs sm:text-sm text-[#F6F2EA] hover:text-[#F0B95A] tracking-widest uppercase font-medium transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
@@ -145,8 +134,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             </div>
           </div>
 
-          
-
           <a 
             href="#faq" 
             className="text-xs sm:text-sm text-[#F6F2EA] hover:text-[#F0B95A] tracking-widest uppercase font-medium transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
@@ -154,7 +141,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             FAQ
           </a>
 
-          {/* LOKAH Portal CTA */}
           <button 
             onClick={handleModalClick}
             className="text-xs sm:text-sm text-[#F0B95A] hover:text-[#1F2E45] border border-[#F0B95A]/70 hover:bg-[#F0B95A] bg-[#1F2E45]/40 backdrop-blur-md px-5 py-2 rounded-full tracking-widest uppercase font-semibold transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(240,185,90,0.4)] cursor-pointer"
@@ -164,7 +150,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
 
         </nav>
 
-        {/* MOBILE HAMBURGER TOGGLE BUTTON (Shown on screens < 1024px) */}
+        {/* MOBILE HAMBURGER TOGGLE BUTTON */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="lg:hidden p-2 text-[#F6F2EA] focus:outline-none cursor-pointer"
@@ -195,7 +181,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-
             Portfolio
           </a>
           <a
@@ -203,7 +188,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-
             Estimator
           </a>
           <a
@@ -211,7 +195,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-
             Ethos &bull; Founder
           </a>
           <a
@@ -233,7 +216,6 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
-            
             FAQ
           </a>
           <button

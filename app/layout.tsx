@@ -8,11 +8,6 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "LOKAH Homes | Calgary's Architect-Led Design-Build Studio",
   description: "See and build your world with LOKAH.",
-  icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
-  },
 };
 
 export default function RootLayout({
