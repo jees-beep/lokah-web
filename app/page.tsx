@@ -274,7 +274,7 @@ export default function Home() {
               <p className="text-base sm:text-xl text-[#A8A59D] font-light leading-relaxed">
                 We strip away the limitations of your current layout. Our
                 design-build delivery revamps your spaces through high-concept
-                remodeling—aligning your interiors with your ambition.
+                remodeling - aligning your interiors with your ambition.
               </p>
             </div>
           </div>
