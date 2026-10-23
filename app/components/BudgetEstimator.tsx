@@ -298,8 +298,8 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
             
             <div className="space-y-4">
               <div>
-                <span className="text-[#C9825B] text-[10px] font-mono tracking-[0.25em] uppercase font-bold block">
-                  Estimated CAD Investment*
+                <span className="text-[#C9825B] text-[12px] font-mono tracking-[0.25em] uppercase font-bold block">
+                  Estimated Investment*
                 </span>
                 <div className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-light text-[#F0B95A] mt-2 mb-1 font-mono whitespace-nowrap overflow-hidden text-ellipsis">
                   ${minEstimate.toLocaleString()} &ndash; ${maxEstimate.toLocaleString()}
