@@ -87,13 +87,13 @@ export default function BudgetEstimator({ onOpenModal }: BudgetEstimatorProps) {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-[#C9825B] text-xs sm:text-sm font-mono tracking-[0.3em] font-bold uppercase block mb-3">
-            Calgary Architectural Investment Calculator
+            Investment Calculator
           </span>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#1F2E45]">
             Estimate Your <span className="text-[#C9825B] italic">Project Scope</span>
           </h2>
-          <p className="mt-4 text-xs sm:text-base font-light text-[#23262B]/70 max-w-2xl mx-auto">
-            Configure your spatial parameters and site conditions to generate a high-level feasibility estimate based on local Calgary benchmarks (CAD $).
+          <p className="mt-4 text-sm sm:text-base font-light text-[#23262B]/70 max-w-2xl mx-auto">
+            Configure your spatial parameters and site conditions to generate a high-level feasibility estimate based on local Calgary benchmarks.
           </p>
         </div>
 

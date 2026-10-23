@@ -336,10 +336,11 @@ export default function Home() {
             <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8">
               Ending the <br /> <span className="text-[#F0B95A] italic">"Leap of Faith."</span>
             </h2>
-            <p className="text-lg md:text-xl font-light text-[#A8A59D] leading-relaxed mb-6">
-              We founded LOKAH Homes to bridge the gap between vision and reality. By combining creative architectural design power with an obsession for the customer experience, we engineered a studio that eliminates the guesswork.
+            <p className="text-base sm:text-lg text-[#F6F2EA]/90 leading-relaxed font-light">
+              We founded <span className="font-bold text-[#F0B95A]">LOKAH</span> to bridge the gap between vision and reality. By combining creative architectural design power with an obsession for the customer experience, we engineered a studio that eliminates the guesswork.
             </p>
-            <p className="text-base font-light text-[#A8A59D]/80 leading-relaxed">
+
+            <p className="mt-6 text-base sm:text-lg text-[#F6F2EA]/90 leading-relaxed font-light">
               Where others offer static drawings, we offer living designs - which are immersive, collaborative, and emotionally resonant. You are free from stress and surprise costs at the end of the build process.
             </p>
           </div>

@@ -184,14 +184,14 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             Portfolio
           </a>
           <a
-            href="#about"
+            href="#estimator"
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
             Estimator
           </a>
           <a
-            href="#faq"
+            href="#about"
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
@@ -212,7 +212,7 @@ export default function Navigation({ onOpenModal }: NavigationProps) {
             Ethos &bull; Methodology
           </a>
           <a
-            href="#estimator"
+            href="#faq"
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs uppercase tracking-widest font-medium text-[#F6F2EA] hover:text-[#F0B95A]"
           >
