@@ -31,7 +31,7 @@ export default function Hero({ heroTextRef }: HeroProps) {
   }, []);
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col justify-center items-center text-center text-[#F6F2EA] overflow-hidden pt-28 pb-20 px-6 sm:px-8">
+   <section className="relative min-h-[100dvh] w-full flex flex-col justify-start md:justify-center items-center text-center text-[#F6F2EA] overflow-hidden pt-32 md:pt-28 pb-20 px-6 sm:px-8">
       {/* Background Video */}
       <video
         autoPlay
@@ -50,8 +50,8 @@ export default function Hero({ heroTextRef }: HeroProps) {
 
       {/* Hero Content */}
       <div ref={heroTextRef} className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
-        <span className="text-[#F0B95A] text-xs sm:text-sm font-mono tracking-[0.3em] font-semibold uppercase mb-6 inline-block reveal-up px-4 py-1.5 rounded-full bg-[#1F2E45]/40 border border-[#F0B95A]/25 backdrop-blur-md shadow-md">
-         Designer-Led Custom Builds
+        <span className="text-[#F0B95A] text-xs sm:text-sm font-mono tracking-[0.3em] font-semibold uppercase mt-3 mb-6 inline-block reveal-up px-4 py-1.5 rounded-full bg-[#1F2E45]/40 border border-[#F0B95A]/25 backdrop-blur-md shadow-md">
+          Designer-Led Custom Builds
         </span>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light leading-[1.1] tracking-tight mb-6 reveal-up drop-shadow-md">
