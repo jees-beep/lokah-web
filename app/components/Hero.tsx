@@ -41,7 +41,7 @@ export default function Hero({ heroTextRef }: HeroProps) {
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
       >
-        <source src="https://bazxhs5b5gngmmuo.public.blob.vercel-storage.com/hero.mp4" type="video/mp4" />
+        <source src="https://pub-e775e47d75734fccadebf45158cf0349.r2.dev/hero_compressed_12MB.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
